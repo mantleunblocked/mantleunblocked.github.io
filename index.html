@@ -293,6 +293,36 @@
   .info:active { transform: none; }
   .info h3 { margin: 0 0 12px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-1); }
 
+  /* ===== Platform segmented control ===== */
+  .dns-tabs {
+    display: flex; gap: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px;
+    width: max-content;
+    margin: 0 0 16px;
+  }
+  .dns-tab {
+    font-family: var(--font-body);
+    font-size: 11.5px; font-weight: 600; letter-spacing: 0.02em;
+    color: var(--text-2);
+    background: transparent;
+    border: none;
+    border-radius: 999px;
+    padding: 6px 16px;
+    cursor: pointer;
+    transition-property: background-color, color;
+    transition-duration: 0.2s;
+    transition-timing-function: var(--ease-out);
+  }
+  .dns-tab:hover { color: var(--text-1); }
+  .dns-tab[aria-pressed="true"] { background: #ffffff; color: #0b0b0f; }
+  .dns-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .dns-panel { display: none; }
+  .dns-panel.active { display: block; }
+
   /* ===== DNS guide: numbered steps ===== */
   .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; counter-reset: step; }
   .step { display: flex; gap: 10px; align-items: flex-start; }
@@ -307,6 +337,14 @@
   .step-num::before { content: counter(step); }
   .step p { margin: 1px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--text-2); }
   .step p b { color: var(--text-1); font-weight: 600; }
+  .step p code {
+    font-family: var(--font-mono); font-size: 11.5px;
+    color: var(--text-1);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 5px;
+  }
 
   /* The four DNS fields: tappable mono chips */
   .dns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
@@ -356,7 +394,7 @@
   .warn-item > svg { width: 15px; height: 15px; color: rgba(251,191,36,0.7); flex-shrink: 0; margin-top: 3px; }
   .warn-item p { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--text-2); }
   .warn-item p b { color: var(--text-1); font-weight: 600; }
-  .warn-item p code {
+  .warn-item p code, .step p code {
     font-family: var(--font-mono); font-size: 11.5px;
     color: var(--text-1);
     background: rgba(255,255,255,0.05);
@@ -398,10 +436,15 @@
       from { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(6px); }
       to   { opacity: 1; transform: none; filter: blur(0); }
     }
+    .dns-panel.active { animation: panelIn 0.25s var(--ease-out); }
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: none; }
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     .cell, .go, .go svg, .dl-cta, .cell::before, .cell::after,
-    .gate-action, .gate-action svg, .reveal-wrap, .reveal-list { transition: none; }
+    .gate-action, .gate-action svg, .reveal-wrap, .reveal-list, .dns-tab { transition: none; }
     .spin { animation: none; }
     .rise { opacity: 1; animation: none; }
   }
@@ -500,7 +543,7 @@
               aria-expanded="false" aria-controls="dnsWrap">
         <span class="gate-text">
           <span class="name">Bypass Lightspeed, Securly &amp; GoGuardian</span>
-          <span class="desc">A one-time DNS change on your Chromebook that stops agent-based filters from resolving blocked sites. <b>Read the notes before starting.</b></span>
+          <span class="desc">A one-time DNS change on your Chromebook or Windows PC that stops agent-based filters from resolving blocked sites. <b>Read the notes before starting.</b></span>
         </span>
         <span class="gate-action">
           <span id="dnsLabel">Show guide</span>
@@ -515,44 +558,95 @@
             <div class="cell info span-2">
               <div style="flex:1;min-width:0">
                 <h3>Switch to custom DNS</h3>
-                <ol class="steps">
-                  <li class="step">
-                    <span class="step-num" aria-hidden="true"></span>
-                    <p>Open <b>Settings</b> → <b>Wi-Fi</b> → <b>Known Networks</b>.</p>
-                  </li>
-                  <li class="step">
-                    <span class="step-num" aria-hidden="true"></span>
-                    <p>Select a network.</p>
-                  </li>
-                  <li class="step">
-                    <span class="step-num" aria-hidden="true"></span>
-                    <p>Dropdown the <b>Network</b> option.</p>
-                  </li>
-                  <li class="step">
-                    <span class="step-num" aria-hidden="true"></span>
-                    <p>Click <b>Name servers</b> → <b>Custom name servers</b>.</p>
-                  </li>
-                  <li class="step">
-                    <span class="step-num" aria-hidden="true"></span>
-                    <div style="min-width:0;flex:1">
-                      <p>Fill the four fields (tap a value to select it):</p>
-                      <div class="dns-grid">
-                        <span class="dns-field"><span class="lbl">DNS 1</span><span class="val">66.23.198.252</span></span>
-                        <span class="dns-field"><span class="lbl">DNS 2</span><span class="val">66.94.105.229</span></span>
-                        <span class="dns-field"><span class="lbl">DNS 3</span><span class="val">0.0.0.0</span></span>
-                        <span class="dns-field"><span class="lbl">DNS 4</span><span class="val">0.0.0.0</span></span>
+
+                <div class="dns-tabs" role="group" aria-label="Choose your device">
+                  <button type="button" class="dns-tab" id="tabChromebook" aria-pressed="true">Chromebook</button>
+                  <button type="button" class="dns-tab" id="tabWindows" aria-pressed="false">Windows</button>
+                </div>
+
+                <!-- Chromebook guide -->
+                <div class="dns-panel active" id="panelChromebook">
+                  <ol class="steps">
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Open <b>Settings</b> → <b>Wi-Fi</b> → <b>Known Networks</b>.</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Select a network.</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Dropdown the <b>Network</b> option.</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Click <b>Name servers</b> → <b>Custom name servers</b>.</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <div style="min-width:0;flex:1">
+                        <p>Fill the four fields (tap a value to select it):</p>
+                        <div class="dns-grid">
+                          <span class="dns-field"><span class="lbl">DNS 1</span><span class="val">66.23.198.252</span></span>
+                          <span class="dns-field"><span class="lbl">DNS 2</span><span class="val">66.94.105.229</span></span>
+                          <span class="dns-field"><span class="lbl">DNS 3</span><span class="val">0.0.0.0</span></span>
+                          <span class="dns-field"><span class="lbl">DNS 4</span><span class="val">0.0.0.0</span></span>
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                  <li class="step">
-                    <span class="step-num" aria-hidden="true"></span>
-                    <p>Repeat steps 3–5 on all other networks.</p>
-                  </li>
-                  <li class="step">
-                    <span class="step-num" aria-hidden="true"></span>
-                    <p><b>Restart your Chromebook</b> to clear cached blocked websites.</p>
-                  </li>
-                </ol>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Repeat steps 3–5 on all other networks.</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p><b>Restart your Chromebook</b> to clear cached blocked websites.</p>
+                    </li>
+                  </ol>
+                </div>
+
+                <!-- Windows guide -->
+                <div class="dns-panel" id="panelWindows">
+                  <ol class="steps">
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Open <b>Settings</b> → <b>Network &amp; internet</b> → <b>Wi-Fi</b>.</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Click your connected network. On Windows 11 open <b>Hardware properties</b>; on Windows 10 open the network's <b>Properties</b>.</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Next to <b>DNS server assignment</b>, click <b>Edit</b>.</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Set the dropdown to <b>Manual</b> and toggle <b>IPv4 On</b>. (Leave IPv6 off.)</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <div style="min-width:0;flex:1">
+                        <p>Fill the fields (tap a value to select it):</p>
+                        <div class="dns-grid">
+                          <span class="dns-field"><span class="lbl">Preferred</span><span class="val">66.23.198.252</span></span>
+                          <span class="dns-field"><span class="lbl">Alternate</span><span class="val">66.94.105.229</span></span>
+                          <span class="dns-field"><span class="lbl">DNS 3</span><span class="val">0.0.0.0</span></span>
+                          <span class="dns-field"><span class="lbl">DNS 4</span><span class="val">0.0.0.0</span></span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Click <b>Save</b>, then repeat for every Wi-Fi network you use — and <b>Ethernet too</b> if you ever dock (Ethernet → the adapter → same DNS edit).</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>Flush the old DNS cache: open <b>Command Prompt</b> and run <code>ipconfig /flushdns</code>, then <b>restart the PC</b>.</p>
+                    </li>
+                  </ol>
+                </div>
               </div>
             </div>
 
@@ -579,7 +673,7 @@
                   </div>
                   <div class="warn-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    <p>This commonly breaks locked mode quizzes. To fix them: revert the DNS → reboot your Chromebook → go to <code>chrome://policy</code> and press <b>"refresh policies"</b>. If that does not work, then disable DNS → remove user → add user back.</p>
+                    <p>This commonly breaks locked mode quizzes. To fix them: <b>Chromebook</b> — revert the DNS → reboot → go to <code>chrome://policy</code> and press <b>"refresh policies"</b>. If that does not work, disable DNS → remove user → add user back. <b>Windows</b> — revert the DNS → run <code>ipconfig /flushdns</code> → reboot → refresh policies at <code>chrome://policy</code>.</p>
                   </div>
                 </div>
               </div>
@@ -652,6 +746,33 @@ function wireDisclosure(gateId, wrapId, labelId, showText, hideText) {
     }
   });
 }
+
+/* ============================================================
+   PLATFORM TABS — Chromebook / Windows guides
+   ============================================================ */
+(function setupDnsTabs() {
+  const tabs = [
+    { btn: document.getElementById("tabChromebook"), panel: document.getElementById("panelChromebook") },
+    { btn: document.getElementById("tabWindows"),    panel: document.getElementById("panelWindows") }
+  ].filter(t => t.btn && t.panel);
+  if (tabs.length < 2) return;
+
+  tabs.forEach(function (t) {
+    t.btn.addEventListener("click", function () {
+      tabs.forEach(function (other) {
+        const active = other === t;
+        other.btn.setAttribute("aria-pressed", String(active));
+        // Re-trigger the panel entrance animation on switch
+        other.panel.classList.remove("active");
+        if (active) {
+          // force reflow so the panelIn animation replays every switch
+          void other.panel.offsetWidth;
+          other.panel.classList.add("active");
+        }
+      });
+    });
+  });
+})();
 
 /* ============================================================
    SHELL DOWNLOAD — wiring first, decoration last
@@ -767,7 +888,7 @@ wireDisclosure("dnsGate", "dnsWrap", "dnsLabel", "Show guide", "Hide guide");
 
 /* Launch capability is live: disarm the watchdog */
 window.__mantleBooted = true;
-console.info("[Mantle] download hub ready · v1.7");
+console.info("[Mantle] download hub ready · v1.8");
 
 /* ============================================================
    DECORATIVE LAYER — spotlight + entrance cleanup, last
