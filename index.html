@@ -337,6 +337,7 @@
   .step-num::before { content: counter(step); }
   .step p { margin: 1px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--text-2); }
   .step p b { color: var(--text-1); font-weight: 600; }
+  .step p a { color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
   .step p code {
     font-family: var(--font-mono); font-size: 11.5px;
     color: var(--text-1);
@@ -394,7 +395,7 @@
   .warn-item > svg { width: 15px; height: 15px; color: rgba(251,191,36,0.7); flex-shrink: 0; margin-top: 3px; }
   .warn-item p { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--text-2); }
   .warn-item p b { color: var(--text-1); font-weight: 600; }
-  .warn-item p code, .step p code {
+  .warn-item p code {
     font-family: var(--font-mono); font-size: 11.5px;
     color: var(--text-1);
     background: rgba(255,255,255,0.05);
@@ -427,6 +428,7 @@
   }
 
   @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
     .rise {
       opacity: 0;
       animation: rise 0.7s var(--ease-out) forwards;
@@ -603,6 +605,10 @@
                       <span class="step-num" aria-hidden="true"></span>
                       <p><b>Restart your Chromebook</b> to clear cached blocked websites.</p>
                     </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>You're set — <a href="#dlCard">jump back up and hit Download</a> to grab the launcher file.</p>
+                    </li>
                   </ol>
                 </div>
 
@@ -643,7 +649,11 @@
                     </li>
                     <li class="step">
                       <span class="step-num" aria-hidden="true"></span>
-                      <p>Flush the old DNS cache: open <b>Command Prompt</b> and run <code>ipconfig /flushdns</code>, then <b>restart the PC</b>.</p>
+                      <p><b>Restart the PC</b> — this clears Windows' DNS cache, so no commands are needed.</p>
+                    </li>
+                    <li class="step">
+                      <span class="step-num" aria-hidden="true"></span>
+                      <p>You're set — <a href="#dlCard">jump back up and hit Download</a> to grab the launcher file.</p>
                     </li>
                   </ol>
                 </div>
@@ -673,7 +683,11 @@
                   </div>
                   <div class="warn-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    <p>This commonly breaks locked mode quizzes. To fix them: <b>Chromebook</b> — revert the DNS → reboot → go to <code>chrome://policy</code> and press <b>"refresh policies"</b>. If that does not work, disable DNS → remove user → add user back. <b>Windows</b> — revert the DNS → run <code>ipconfig /flushdns</code> → reboot → refresh policies at <code>chrome://policy</code>.</p>
+                    <p><b>Chromebook:</b> this can break locked mode quizzes. To fix them: revert the DNS → reboot → go to <code>chrome://policy</code> and press <b>"refresh policies"</b>. If that does not work, disable DNS → remove user → add user back.</p>
+                  </div>
+                  <div class="warn-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <p><b>Windows:</b> while the custom DNS is on, school-internal things can stop resolving — printing, file shares, and lockdown apps like <b>Respondus LockDown Browser</b> or <b>Safe Exam Browser</b>. Revert the DNS and reboot before any exam that uses one, and again afterwards.</p>
                   </div>
                 </div>
               </div>
@@ -888,7 +902,7 @@ wireDisclosure("dnsGate", "dnsWrap", "dnsLabel", "Show guide", "Hide guide");
 
 /* Launch capability is live: disarm the watchdog */
 window.__mantleBooted = true;
-console.info("[Mantle] download hub ready · v1.8");
+console.info("[Mantle] download hub ready · v1.9");
 
 /* ============================================================
    DECORATIVE LAYER — spotlight + entrance cleanup, last
