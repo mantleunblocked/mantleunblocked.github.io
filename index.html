@@ -3,43 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Google</title>
-<link rel="icon" href="https://www.google.com/favicon.ico">
-
-<!-- Google tag (gtag.js) — delete this block if you don't need analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-16ZLTDD1PV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-16ZLTDD1PV');
-</script>
+<title>Google Docs</title>
+<link rel="icon" href="https://ssl.gstatic.com/docs/documents/images/kix-favicon-2023q4.ico">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Geist:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
   :root {
     color-scheme: dark;
-    --bg: #0b0b0f;
-    --surface: #121217;
-    --surface-2: #18181e;
-    --border: rgba(255,255,255,0.07);
-    --border-strong: rgba(255,255,255,0.17);
-    --text-1: #f4f4f5;
-    --text-2: #a1a1aa;
-    --text-3: #71717a;
-    --accent: #22d3ee;
-    --accent-hover: #67e8f9;
-    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'Geist', sans-serif;
-    --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    --r-surface: 16px;
-    --r-chip: 12px;
-    --r-go: 10px;
+    --bg: #0a0a0b;
+    --surface: #111112;
+    --surface-hover: #171718;
+    --surface-active: #1d1d1e;
+    --border: rgba(255,255,255,0.08);
+    --text-1: #fafafa;
+    --text-2: #b0b0b3;
+    --text-3: #9a9a9d;
+    --text-4: #6e6e71;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --grid-cell: 24px;
   }
 
   * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -49,187 +33,286 @@
     min-height: 100dvh;
     background: var(--bg);
     color: var(--text-1);
-    font-family: var(--font-body);
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 15px;
-    line-height: 1.55;
+    line-height: 1.5;
     display: flex;
     flex-direction: column;
-    padding: 40px clamp(16px, 4vw, 22px);
-    overflow-x: hidden;
+    padding: 72px 24px 56px;
     -webkit-tap-highlight-color: transparent;
+    position: relative;
   }
 
-  ::selection { background: rgba(34,211,238,0.25); }
+  /* ---------- GridPulse background ---------- */
 
-  .bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-  .bg::before {
-    content: "";
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(820px 380px at 50% -10%, rgba(34,211,238,0.10), transparent 70%),
-      radial-gradient(560px 320px at 50% 112%, rgba(88,101,242,0.055), transparent 72%);
+  #grid-pulse {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M0.5 0 V24 M0 0.5 H24' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: var(--grid-cell) var(--grid-cell);
   }
-  .bg::after {
-    content: "";
-    position: absolute; inset: 0;
-    background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-    background-size: 26px 26px;
-    -webkit-mask-image: radial-gradient(ellipse 72% 62% at 50% 6%, black 10%, transparent 72%);
-    mask-image: radial-gradient(ellipse 72% 62% at 50% 6%, black 10%, transparent 72%);
+  #grid-pulse canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  main { position: relative; z-index: 1; width: 100%; max-width: 540px; margin: auto; }
+  ::selection { background: rgba(170,170,180,0.22); }
 
-  header { text-align: center; margin-bottom: 30px; }
-  header img {
+  main {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---------- Header ---------- */
+
+  header {
+    text-align: center;
+    margin-bottom: 44px;
+  }
+
+  .brand-block {
+    display: inline-block;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .brand-block .logo {
     display: block;
-    width: min(340px, 92%);
+    width: auto;
+    max-width: 320px;
     height: auto;
-    margin: 0 auto 12px;
+    margin: 0 auto 22px;
     user-select: none;
     -webkit-user-drag: none;
   }
-  header p {
-    margin: 0 auto; max-width: 44ch;
-    font-size: 13.5px; font-weight: 400; letter-spacing: 0.01em;
-    color: var(--text-2);
+
+  .tagline {
+    margin: 0 auto;
+    max-width: 46ch;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-3);
+    line-height: 1.55;
+    letter-spacing: -0.002em;
   }
 
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .span-2 { grid-column: span 2; }
+  /* ---------- Download card ---------- */
 
-  .section-relays, .section-dns {
-    margin-top: 40px;
-    display: flex; flex-direction: column; gap: 12px;
+  .apps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
-  .cell {
+  .card {
     position: relative;
-    display: flex; align-items: center; gap: 12px;
-    padding: 15px 16px;
+    display: flex;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--r-surface);
-    cursor: pointer; text-align: left;
-    font-family: inherit; font-size: inherit; color: inherit;
-    text-decoration: none; user-select: none;
-    transition-property: background-color, border-color, transform, box-shadow;
-    transition-duration: 0.25s;
-    transition-timing-function: var(--ease-out);
+    border-radius: 10px;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    text-decoration: none;
+    transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease);
   }
-  .cell:hover {
-    background: var(--surface-2);
-    border-color: var(--border-strong);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-  }
-  .cell:active { transform: translateY(0) scale(0.985); transition-duration: 0.1s; }
-  .cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-  /* Pointer spotlight: interior wash + border ring glow */
-  .cell::before {
-    content: ""; position: absolute; inset: 0; border-radius: inherit;
-    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 65%);
-    opacity: 0; transition: opacity 0.3s var(--ease-out);
-    pointer-events: none;
+  .dl-card {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    cursor: pointer;
   }
-  .cell::after {
-    content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
-    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--glow-strong), transparent 65%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask-composite: exclude;
-    opacity: 0; transition: opacity 0.3s var(--ease-out);
-    pointer-events: none;
-  }
-  .cell:hover::before, .cell:hover::after { opacity: 1; }
 
-  /* Featured download card: cyan-tinted border marks it as the primary
-     surface before a single pixel of hover happens */
-  .featured {
-    --glow: rgba(34,211,238,0.06); --glow-strong: rgba(34,211,238,0.35);
-    border-color: rgba(34,211,238,0.24);
-    background: linear-gradient(130deg, rgba(34,211,238,0.06), transparent 42%), var(--surface);
+  .dl-card:hover { background: var(--surface-hover); border-color: rgba(255,255,255,0.14); }
+  .dl-card:active { background: var(--surface-active); }
+  .dl-card:focus-visible { outline: 2px solid rgba(34,211,238,0.6); outline-offset: 3px; }
+
+  .dl-top { display: flex; align-items: center; gap: 16px; }
+
+  .chip {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid rgba(34,211,238,0.22);
+    background: rgba(34,211,238,0.08);
+    color: #22d3ee;
+    transition: border-color 0.15s var(--ease), background-color 0.15s var(--ease);
   }
-  .featured:hover {
+  .dl-card:hover .chip {
     border-color: rgba(34,211,238,0.42);
-    background: linear-gradient(130deg, rgba(34,211,238,0.09), transparent 45%), var(--surface-2);
+    background: rgba(34,211,238,0.13);
+  }
+  .chip svg { width: 22px; height: 22px; display: block; }
+
+  .meta { flex: 1; min-width: 0; }
+
+  .name {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.008em;
+    color: var(--text-1);
+    line-height: 1.3;
   }
 
-  .dl { flex-direction: column; align-items: stretch; gap: 14px; padding: 18px; }
-  .dl-top { display: flex; align-items: center; gap: 12px; }
+  .desc {
+    display: block;
+    font-size: 14px;
+    color: var(--text-3);
+    line-height: 1.45;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .dl-note {
     display: block;
-    font-size: 12.5px; line-height: 1.6; color: var(--text-2);
-    max-width: 52ch;
+    font-size: 13.5px;
+    color: var(--text-3);
+    line-height: 1.55;
+    max-width: 60ch;
   }
 
-  /* ===== Primary CTA: the only saturated filled element on the page ===== */
+  /* CTA — white primary, matching the modal buttons */
   .dl-cta {
-    display: flex; align-items: center; justify-content: center; gap: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
     width: 100%;
-    padding: 13px 16px;
+    padding: 12px 16px;
     border: none;
-    border-radius: var(--r-chip);
-    background: var(--accent);
-    color: #07161a;
-    font-family: var(--font-body);
-    font-size: 14px; font-weight: 700; letter-spacing: 0.01em;
+    border-radius: 8px;
+    background: #fafafa;
+    color: #0a0a0b;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
     user-select: none;
-    transition-property: background-color, transform;
-    transition-duration: 0.2s;
-    transition-timing-function: var(--ease-out);
+    transition: background-color 0.15s var(--ease);
   }
-  .dl-cta svg { width: 17px; height: 17px; }
-  .featured:hover .dl-cta { background: var(--accent-hover); }
-  .dl-cta:hover { background: var(--accent-hover); }
-  .dl-cta:active { transform: scale(0.98); }
-  .dl-cta.ok   { background: #ffffff; color: #0b0b0f; }
-  .dl-cta.bad  { background: rgba(239,68,68,0.14); color: #f87171; box-shadow: inset 0 0 0 1px rgba(239,68,68,0.4); }
+  .dl-cta svg { width: 17px; height: 17px; display: block; }
+  .dl-card:hover .dl-cta { background: #e4e4e7; }
+
+  .dl-cta.ok  { background: #fafafa; color: #0a0a0b; }
+  .dl-cta.bad {
+    background: rgba(239,68,68,0.14);
+    color: #f87171;
+    box-shadow: inset 0 0 0 1px rgba(239,68,68,0.35);
+  }
+
   .spin {
-    display: inline-block; width: 12px; height: 12px;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
-    border: 2px solid rgba(7,22,26,0.25); border-top-color: currentColor;
+    border: 2px solid rgba(10,10,11,0.22);
+    border-top-color: currentColor;
     animation: spin 0.7s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ===== Disclosure headers ===== */
+  /* Help line below the card */
+  #dlHelp {
+    display: none;
+    margin: 0 4px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-3);
+  }
+  #dlHelp a { color: var(--text-1); text-decoration: underline; text-underline-offset: 2px; }
+  #dlHelp .fallback-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  #dlHelp .fallback-links a {
+    font-size: 12.5px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: var(--text-2);
+    transition: border-color 0.15s var(--ease), color 0.15s var(--ease);
+  }
+  #dlHelp .fallback-links a:hover { border-color: rgba(255,255,255,0.16); color: var(--text-1); }
+
+  /* ---------- Relay section (behind a disclosure) ---------- */
+
+  .relay-section {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   .gate {
-    --glow: rgba(255,255,255,0.035); --glow-strong: rgba(255,255,255,0.18);
-    width: 100%;
-    padding: 13px 14px 13px 16px;
+    --row-accent: rgba(255,255,255,0.5);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease);
   }
-  .gate:hover {
-    background: var(--surface-2);
-    border-color: var(--border-strong);
-    transform: none;
-    box-shadow: none;
+  .gate:hover { background: var(--surface-hover); border-color: rgba(255,255,255,0.14); }
+  .gate:focus-visible { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 3px; }
+
+  .gate-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .gate-text .name { font-size: 15px; font-weight: 500; color: var(--text-1); letter-spacing: -0.005em; }
+  .gate-text .desc {
+    font-size: 13px;
+    color: var(--text-3);
+    line-height: 1.5;
+    white-space: normal;
   }
-  .gate:active { transform: none; }
-  .gate-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-  .gate-text .name { font-size: 15px; }
-  .gate-text .desc { white-space: normal; line-height: 1.5; }
-  .gate-text .desc b { color: #fbbf24; font-weight: 600; }
 
   .gate-action {
     flex-shrink: 0;
-    display: flex; align-items: center; gap: 7px;
-    font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--text-1);
-    border: 1px solid var(--border-strong);
-    border-radius: 999px;
-    padding: 6px 14px;
-    transition-property: background-color, border-color, color;
-    transition-duration: 0.2s;
-    transition-timing-function: var(--ease-out);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 12px;
+    transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease);
   }
-  .gate:hover .gate-action { background: #ffffff; border-color: #ffffff; color: #0b0b0f; }
+  .gate:hover .gate-action {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.16);
+    color: var(--text-1);
+  }
   .gate-action svg {
-    width: 12px; height: 12px;
-    transition: transform 0.3s var(--ease-out);
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s var(--ease);
   }
   .gate[aria-expanded="true"] .gate-action svg { transform: rotate(180deg); }
 
@@ -237,476 +320,415 @@
   .reveal-wrap {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s var(--ease-out);
+    transition: grid-template-rows 0.4s var(--ease);
   }
   .reveal-wrap.open { grid-template-rows: 1fr; }
   .reveal-inner { overflow: hidden; min-height: 0; }
   .reveal-list {
-    display: flex; flex-direction: column; gap: 12px;
-    opacity: 0; transform: translateY(6px);
-    transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
   }
-  .reveal-wrap.open .reveal-list { opacity: 1; transform: none; transition-delay: 0.08s; }
+  .reveal-wrap.open .reveal-list {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.08s;
+  }
 
   /* Relay link cards */
-  .relay { --glow: rgba(255,255,255,0.045); --glow-strong: rgba(255,255,255,0.22); }
-
-  .chip {
-    width: 44px; height: 44px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: var(--r-chip);
-    border: 1px solid;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+  .relay {
+    display: grid;
+    grid-template-columns: 48px 1fr 20px;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 22px;
+    cursor: pointer;
   }
-  .chip svg { width: 21px; height: 21px; }
-  .chip-download { color: #22d3ee; background: rgba(34,211,238,0.08); border-color: rgba(34,211,238,0.22); }
-  .chip-relay    { color: #d4d4d8; background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.10); }
+  .relay:hover { background: var(--surface-hover); border-color: rgba(255,255,255,0.14); }
+  .relay:active { background: var(--surface-active); }
+  .relay:focus-visible { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 3px; }
 
-  .meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-  .name { font-size: 15.5px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-1); }
-  .desc { font-size: 12.5px; color: var(--text-2); line-height: 1.45;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chip-relay {
+    border-color: var(--border);
+    background: rgba(255,255,255,0.02);
+    color: var(--text-2);
+  }
+  .relay:hover .chip-relay { border-color: rgba(255,255,255,0.14); color: var(--text-1); }
+
+  .relay-name {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.008em;
+    color: var(--text-1);
+    line-height: 1.3;
+  }
+  .relay-url {
+    display: block;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 12.5px;
+    color: var(--text-3);
+    line-height: 1.45;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   .go {
-    width: 32px; height: 32px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text-3);
-    border: 1px solid var(--border);
-    border-radius: var(--r-go);
-    transition-property: background-color, border-color, color, transform;
-    transition-duration: 0.25s;
-    transition-timing-function: var(--ease-out);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-4);
+    transition: color 0.15s var(--ease), transform 0.15s var(--ease);
   }
-  .go svg {
-    width: 15px; height: 15px;
-    translate: -1px 0;
-    transition: transform 0.3s var(--ease-spring);
-  }
-  .cell:hover .go { background: #ffffff; border-color: #ffffff; color: #0b0b0f; }
-  .cell:hover .go svg { transform: translateX(3px); }
-  .cell:active .go { transform: scale(0.94); }
+  .go svg { width: 16px; height: 16px; display: block; }
+  .relay:hover .go { color: var(--text-1); transform: translateX(2px); }
 
-  /* Non-interactive info cards: same look, zero hover behavior */
-  .info { cursor: default; }
-  .info:hover { background: var(--surface); border-color: var(--border); transform: none; box-shadow: none; }
-  .info::before, .info::after { display: none; }
-  .info:active { transform: none; }
-  .info h3 { margin: 0 0 12px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-1); }
+  /* ---------- Footer ---------- */
 
-  /* ===== Platform segmented control ===== */
-  .dns-tabs {
-    display: flex; gap: 4px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 4px;
-    width: max-content;
-    margin: 0 0 16px;
-  }
-  .dns-tab {
-    font-family: var(--font-body);
-    font-size: 11.5px; font-weight: 600; letter-spacing: 0.02em;
-    color: var(--text-2);
-    background: transparent;
-    border: none;
-    border-radius: 999px;
-    padding: 6px 16px;
-    cursor: pointer;
-    transition-property: background-color, color;
-    transition-duration: 0.2s;
-    transition-timing-function: var(--ease-out);
-  }
-  .dns-tab:hover { color: var(--text-1); }
-  .dns-tab[aria-pressed="true"] { background: #ffffff; color: #0b0b0f; }
-  .dns-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  .dns-panel { display: none; }
-  .dns-panel.active { display: block; }
-
-  /* ===== DNS guide: numbered steps ===== */
-  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; counter-reset: step; }
-  .step { display: flex; gap: 10px; align-items: flex-start; }
-  .step-num {
-    counter-increment: step;
-    flex-shrink: 0; width: 22px; height: 22px; border-radius: 999px;
-    display: flex; align-items: center; justify-content: center;
-    font: 600 11px/1 var(--font-display);
-    color: var(--text-2);
-    border: 1px solid var(--border-strong);
-  }
-  .step-num::before { content: counter(step); }
-  .step p { margin: 1px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--text-2); }
-  .step p b { color: var(--text-1); font-weight: 600; }
-  .step p a { color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
-  .step p code {
-    font-family: var(--font-mono); font-size: 11.5px;
-    color: var(--text-1);
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 1px 5px;
+  footer {
+    margin-top: auto;
+    padding-top: 48px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-4);
+    letter-spacing: 0.01em;
   }
 
-  /* The four DNS fields: tappable mono chips */
-  .dns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-  @media (min-width: 520px) { .dns-grid { grid-template-columns: repeat(4, 1fr); } }
-  .dns-field {
-    display: flex; flex-direction: column; gap: 3px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 8px 10px;
-  }
-  .dns-field .lbl {
-    font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--text-3);
-  }
-  .dns-field .val {
-    font-family: var(--font-mono);
-    font-size: 12.5px; color: var(--text-1);
-    user-select: all; -webkit-user-select: all;
-  }
-
-  /* ===== Warnings: primary callout + subdued rows ===== */
-  .warn-card { border-color: rgba(251,191,36,0.26); }
-  .warn-card:hover { border-color: rgba(251,191,36,0.26); }
-  .warn-primary {
-    display: flex; gap: 10px; align-items: flex-start;
-    background: rgba(251,191,36,0.09);
-    border: 1px solid rgba(251,191,36,0.38);
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin-bottom: 14px;
-  }
-  .warn-primary > svg { width: 18px; height: 18px; color: #fbbf24; flex-shrink: 0; margin-top: 2px; }
-  .warn-primary .tag {
-    display: inline-block;
-    font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-    color: #fcd34d;
-    border: 1px solid rgba(251,191,36,0.4);
-    border-radius: 999px;
-    padding: 2px 8px;
-    margin-bottom: 6px;
-  }
-  .warn-primary p { margin: 0; font-size: 12.5px; line-height: 1.6; color: #fde68a; }
-  .warn-primary p b { color: #fcd34d; font-weight: 700; }
-  .warn-items { display: flex; flex-direction: column; gap: 12px; padding-top: 2px; }
-  .warn-item { display: flex; gap: 10px; align-items: flex-start; }
-  .warn-item > svg { width: 15px; height: 15px; color: rgba(251,191,36,0.7); flex-shrink: 0; margin-top: 3px; }
-  .warn-item p { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--text-2); }
-  .warn-item p b { color: var(--text-1); font-weight: 600; }
-  .warn-item p code {
-    font-family: var(--font-mono); font-size: 11.5px;
-    color: var(--text-1);
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 1px 5px;
-  }
-
-  /* Help line under the download card (save fallback / error) */
-  #dlHelp { display: none; margin: 2px 4px 0; font-size: 12px; line-height: 1.6; color: var(--text-3); }
-  #dlHelp a { color: var(--accent); text-decoration: underline; }
-  #dlHelp .fallback-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-  #dlHelp .fallback-links a {
-    font-size: 11px; text-decoration: none;
-    border: 1px solid var(--border-strong); border-radius: 999px; padding: 4px 10px;
-    color: var(--text-1);
-  }
-  #dlHelp .fallback-links a:hover { border-color: #ffffff; }
-
-  footer { margin-top: 44px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
-  footer .mark {
-    font-family: var(--font-display);
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 0.4em; text-indent: 0.4em; text-transform: uppercase;
-    color: var(--text-2);
-  }
-  footer .est {
-    font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--text-3);
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    html { scroll-behavior: smooth; }
-    .rise {
-      opacity: 0;
-      animation: rise 0.7s var(--ease-out) forwards;
-      animation-delay: var(--delay, 0s);
-    }
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(6px); }
-      to   { opacity: 1; transform: none; filter: blur(0); }
-    }
-    .dns-panel.active { animation: panelIn 0.25s var(--ease-out); }
-    @keyframes panelIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to   { opacity: 1; transform: none; }
-    }
-  }
   @media (prefers-reduced-motion: reduce) {
-    .cell, .go, .go svg, .dl-cta, .cell::before, .cell::after,
-    .gate-action, .gate-action svg, .reveal-wrap, .reveal-list, .dns-tab { transition: none; }
+    .card, .gate, .gate-action, .gate-action svg, .go,
+    .reveal-wrap, .reveal-list, .dl-cta { transition: none; }
     .spin { animation: none; }
-    .rise { opacity: 1; animation: none; }
   }
 
-  @media (max-width: 620px) {
-    .grid { grid-template-columns: 1fr; }
-    .span-2 { grid-column: span 1; }
-  }
-  @media (max-height: 640px) {
-    body { padding-top: 24px; padding-bottom: 24px; }
-    header { margin-bottom: 20px; }
-    header img { width: min(260px, 80%); }
-    .section-relays, .section-dns { margin-top: 28px; }
+  @media (max-width: 560px) {
+    body { padding: 52px 20px 40px; }
+    header { margin-bottom: 32px; }
+    .brand-block .logo { max-width: 260px; }
+    .relay { padding: 16px 18px; gap: 16px; grid-template-columns: 44px 1fr 18px; }
+    .chip, .chip-relay { width: 44px; height: 44px; }
+    .chip svg, .chip-relay svg { width: 20px; height: 20px; }
+    .name, .relay-name { font-size: 15.5px; }
+    .desc, .relay-url { font-size: 13.5px; }
   }
 </style>
 </head>
 
 <body>
+  <div id="grid-pulse" aria-hidden="true"><canvas></canvas></div>
+
   <script>
-    /* WATCHDOG: independent of the main script. If the main script never
+    /* WATCHDOG — independent of the main script. If the main script never
        boots (stale cached copy), explain instead of leaving dead controls. */
     window.__mantleBooted = false;
     setTimeout(function () {
       if (window.__mantleBooted) return;
       var b = document.createElement("div");
-      b.style.cssText = "position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:10001;background:#16161b;border:1px solid rgba(255,255,255,0.17);color:#f4f4f5;font:12.5px/1.5 Arial,sans-serif;padding:10px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.5);text-align:center;max-width:88vw";
+      b.style.cssText = "position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:10001;background:#18181b;border:1px solid rgba(255,255,255,0.14);color:#fafafa;font:13px/1.5 -apple-system,Arial,sans-serif;padding:12px 18px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.5);text-align:center;max-width:88vw";
       b.innerHTML = "<b>Mantle loaded an out-of-date copy.</b><br>Hold Ctrl and press R to refresh.";
       (document.body || document.documentElement).appendChild(b);
     }, 2500);
   </script>
 
-  <div class="bg" aria-hidden="true"></div>
-
   <main>
-    <header class="rise" style="--delay:0s">
-      <img src="https://mantleunblocked.github.io/assets/full%20logo.png" alt="Mantle" draggable="false">
-      <p>One file, no install. It pulls the latest Mantle every time it opens.</p>
+    <header>
+      <div class="brand-block" data-grid-avoid data-grid-avoid-block>
+        <img class="logo" src="https://mantleunblocked.github.io/assets/full%20logo.png" alt="Mantle" draggable="false">
+        <p class="tagline">One file, no install. Pulls the latest Mantle every time it opens.</p>
+      </div>
     </header>
 
-    <!-- SECTION 1: the launcher file -->
-    <section class="grid" aria-label="Get the launcher file">
+    <section class="apps" aria-label="Get the launcher file">
 
-      <button type="button" id="dlCard" class="cell featured span-2 dl rise" style="--delay:.06s" aria-busy="false">
+      <button type="button" id="dlCard" class="card dl-card" aria-busy="false">
         <span class="dl-top">
-          <span class="chip chip-download" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span class="chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
           </span>
           <span class="meta">
             <span class="name">Mantle Launcher File</span>
             <span class="desc" id="dlDesc">Saves Mantle.html to your device.</span>
           </span>
         </span>
+
         <span class="dl-cta" id="dlCta" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
           <span id="dlCtaLabel">Download</span>
         </span>
+
         <span class="dl-note">
           Open the file any time. No install, no admin rights. It pulls the newest
           Mantle on every launch, so the file never needs replacing.
         </span>
       </button>
 
-      <div id="dlHelp" aria-live="polite"></div>
+      <div id="dlHelp" data-grid-avoid aria-live="polite"></div>
 
     </section>
 
-    <!-- SECTION 2: relays behind an explicit disclosure -->
-    <section class="section-relays" aria-label="Direct links" id="relaySection">
-
-      <button type="button" id="relayGate" class="cell gate rise" style="--delay:.14s"
-              aria-expanded="false" aria-controls="relayWrap">
+    <section class="relay-section" aria-label="Direct links" id="relaySection">
+      <button type="button" id="relayGate" class="gate" aria-expanded="false" aria-controls="relayWrap">
         <span class="gate-text">
-          <span class="name">Files don't work in your school?</span>
-          <span class="desc">Direct links that open Mantle in your browser. They may already be blocked, and are <b>easy for your school to block if caught</b>, so the launcher file above is always the safer option.</span>
+          <span class="name">Files don't work on your network?</span>
+          <span class="desc">Direct links that open Mantle in your browser. They may already be blocked, and are easy for your school to block if caught, so the launcher file above is always the safer option.</span>
         </span>
         <span class="gate-action">
           <span id="gateLabel">Show links</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
         </span>
       </button>
 
       <div class="reveal-wrap" id="relayWrap">
         <div class="reveal-inner">
-          <div class="reveal-list" id="relayList">
-            <!-- relay cards are appended here by the script -->
-          </div>
+          <div class="reveal-list" id="relayList"></div>
         </div>
       </div>
-
     </section>
 
-    <!-- SECTION 3: DNS bypass guide behind an explicit disclosure -->
-    <section class="section-dns" aria-label="Filter bypass guide">
-
-      <button type="button" id="dnsGate" class="cell gate rise" style="--delay:.2s"
-              aria-expanded="false" aria-controls="dnsWrap">
-        <span class="gate-text">
-          <span class="name">Bypass Lightspeed, Securly &amp; GoGuardian</span>
-          <span class="desc">A one-time DNS change on your Chromebook or Windows PC that stops agent-based filters from resolving blocked sites. <b>Read the notes before starting.</b></span>
-        </span>
-        <span class="gate-action">
-          <span id="dnsLabel">Show guide</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </span>
-      </button>
-
-      <div class="reveal-wrap" id="dnsWrap">
-        <div class="reveal-inner">
-          <div class="reveal-list">
-
-            <div class="cell info span-2">
-              <div style="flex:1;min-width:0">
-                <h3>Switch to custom DNS</h3>
-
-                <div class="dns-tabs" role="group" aria-label="Choose your device">
-                  <button type="button" class="dns-tab" id="tabChromebook" aria-pressed="true">Chromebook</button>
-                  <button type="button" class="dns-tab" id="tabWindows" aria-pressed="false">Windows</button>
-                </div>
-
-                <!-- Chromebook guide -->
-                <div class="dns-panel active" id="panelChromebook">
-                  <ol class="steps">
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>Open <b>Settings</b> → <b>Wi-Fi</b> → <b>Known Networks</b>.</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>Select a network.</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>Dropdown the <b>Network</b> option.</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>Click <b>Name servers</b> → <b>Custom name servers</b>.</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <div style="min-width:0;flex:1">
-                        <p>Fill the four fields (tap a value to select it):</p>
-                        <div class="dns-grid">
-                          <span class="dns-field"><span class="lbl">DNS 1</span><span class="val">66.23.198.252</span></span>
-                          <span class="dns-field"><span class="lbl">DNS 2</span><span class="val">66.94.105.229</span></span>
-                          <span class="dns-field"><span class="lbl">DNS 3</span><span class="val">0.0.0.0</span></span>
-                          <span class="dns-field"><span class="lbl">DNS 4</span><span class="val">0.0.0.0</span></span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>Repeat steps 3–5 on all other networks.</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p><b>Restart your Chromebook</b> to clear cached blocked websites.</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>You're set — <a href="#dlCard">jump back up and hit Download</a> to grab the launcher file.</p>
-                    </li>
-                  </ol>
-                </div>
-
-                <!-- Windows guide -->
-                <div class="dns-panel" id="panelWindows">
-                  <ol class="steps">
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>Open <b>Settings</b> → <b>Network &amp; internet</b> → <b>Wi-Fi</b>.</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>Click your connected network. On Windows 11 open <b>Hardware properties</b>; on Windows 10 open the network's <b>Properties</b>.</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>Next to <b>DNS server assignment</b>, click <b>Edit</b>.</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>Set the dropdown to <b>Manual</b> and toggle <b>IPv4 On</b>. (Leave IPv6 off.)</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <div style="min-width:0;flex:1">
-                        <p>Fill the fields (tap a value to select it):</p>
-                        <div class="dns-grid">
-                          <span class="dns-field"><span class="lbl">Preferred</span><span class="val">66.23.198.252</span></span>
-                          <span class="dns-field"><span class="lbl">Alternate</span><span class="val">66.94.105.229</span></span>
-                          <span class="dns-field"><span class="lbl">DNS 3</span><span class="val">0.0.0.0</span></span>
-                          <span class="dns-field"><span class="lbl">DNS 4</span><span class="val">0.0.0.0</span></span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>Click <b>Save</b>, then repeat for every Wi-Fi network you use — and <b>Ethernet too</b> if you ever dock (Ethernet → the adapter → same DNS edit).</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p><b>Restart the PC</b> — this clears Windows' DNS cache, so no commands are needed.</p>
-                    </li>
-                    <li class="step">
-                      <span class="step-num" aria-hidden="true"></span>
-                      <p>You're set — <a href="#dlCard">jump back up and hit Download</a> to grab the launcher file.</p>
-                    </li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-
-            <div class="cell info span-2 warn-card">
-              <div style="flex:1;min-width:0">
-                <h3>Before you rely on this</h3>
-
-                <div class="warn-primary">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                  <div>
-                    <span class="tag">Most important</span>
-                    <p><b>Lightspeed keeps a cache for two weeks of blocked websites.</b> Simply use the DNS for more than two weeks.</p>
-                  </div>
-                </div>
-
-                <div class="warn-items">
-                  <div class="warn-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    <p>This does <b>NOT</b> work on filters such as ContentKeeper, iboss, most Cisco configurations, or Fortiguard. They are network level.</p>
-                  </div>
-                  <div class="warn-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    <p>If you're already using this method, continue to do so, and <b>DO NOT connect to a Wi-Fi network without it</b>, otherwise your extensions may update and be patched.</p>
-                  </div>
-                  <div class="warn-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    <p><b>Chromebook:</b> this can break locked mode quizzes. To fix them: revert the DNS → reboot → go to <code>chrome://policy</code> and press <b>"refresh policies"</b>. If that does not work, disable DNS → remove user → add user back.</p>
-                  </div>
-                  <div class="warn-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    <p><b>Windows:</b> while the custom DNS is on, school-internal things can stop resolving — printing, file shares, and lockdown apps like <b>Respondus LockDown Browser</b> or <b>Safe Exam Browser</b>. Revert the DNS and reboot before any exam that uses one, and again afterwards.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <footer class="rise" style="--delay:.26s">
-      <span class="mark">© 2026 Mantle</span>
-      <span class="est">Est 2025</span>
+    <footer data-grid-avoid>
+      © 2026 Mantle
     </footer>
   </main>
 
 <script>
 "use strict";
+
+/* ============================================================
+   GRIDPULSE — same background as the menu. Text protection uses
+   elliptical falloff zones around protected blocks so nothing
+   overlaps what you're reading.
+   ============================================================ */
+(function initGridPulse() {
+  const el = document.getElementById("grid-pulse");
+  const canvas = el && el.querySelector("canvas");
+  const ctx = canvas && canvas.getContext("2d");
+  if (!el || !canvas || !ctx) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const CELL = 24;
+  const REACH = 2.6;
+  const MAX_LIT = 180;
+  const AVOID = "[data-grid-avoid]";
+  const AVOID_BLOCK = "data-grid-avoid-block";
+
+  const HUE_TOP = 30;
+  const HUE_MID = 220;
+  const HUE_BOT = 125;
+
+  const TINTS = [72, 65, 58, 51, 44];
+  const FAINT = 0.13;
+
+  const PAD = 14;
+  const FADE = 1.1;
+
+  const FADE_IN = 160;
+  const FADE_OUT = 750;
+
+  const easeOut = t => 1 - (1 - t) * (1 - t);
+  const easeIn = t => t * t;
+
+  let cols = 1, rows = 1, width = 0, height = 0;
+  let clear = [];
+  const cells = new Map();
+
+  function makeEllipse(r, bounds) {
+    return {
+      cx: r.left - bounds.left + r.width / 2,
+      cy: r.top - bounds.top + r.height / 2,
+      rx: Math.max(1, r.width / 2 + PAD),
+      ry: Math.max(1, r.height / 2 + PAD)
+    };
+  }
+
+  function measureText() {
+    const bounds = el.getBoundingClientRect();
+    clear = [...document.querySelectorAll(AVOID)].flatMap(node => {
+      if (node.hasAttribute(AVOID_BLOCK)) {
+        return [makeEllipse(node.getBoundingClientRect(), bounds)];
+      }
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      const lines = [...range.getClientRects()].filter(r => r.width > 0 && r.height > 0);
+      const boxes = lines.length > 0 ? lines : [node.getBoundingClientRect()];
+      return boxes.map(r => makeEllipse(r, bounds));
+    });
+  }
+
+  function measure() {
+    width = el.clientWidth;
+    height = el.clientHeight;
+    cols = Math.max(1, Math.ceil(width / CELL));
+    rows = Math.max(1, Math.ceil(height / CELL));
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    measureText();
+    wake();
+  }
+
+  function brightness(col, row) {
+    const x = col * CELL + CELL / 2;
+    const y = row * CELL + CELL / 2;
+    let nearest = Infinity;
+    for (const e of clear) {
+      const dx = (x - e.cx) / e.rx;
+      const dy = (y - e.cy) / e.ry;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < nearest) nearest = d;
+      if (nearest === 0) break;
+    }
+    if (nearest === Infinity) return 1;
+    if (nearest <= 1) return FAINT;
+    const t = Math.min(1, (nearest - 1) / FADE);
+    return FAINT + (1 - FAINT) * (t * t);
+  }
+
+  function hueFor(t) {
+    if (t < 0.5) return HUE_TOP + (HUE_MID - HUE_TOP) * (t / 0.5);
+    return HUE_MID + (HUE_BOT - HUE_MID) * ((t - 0.5) / 0.5);
+  }
+
+  function ink(row) {
+    const t = rows > 1 ? Math.min(1, row / (rows - 1)) : 0;
+    const hue = ((hueFor(t) % 360) + 360) % 360;
+    const tint = TINTS[Math.floor(Math.random() * TINTS.length)];
+    return "hsl(" + Math.round(hue) + " 94% " + tint + "%)";
+  }
+
+  let frame = 0;
+  function draw(now) {
+    frame = 0;
+    ctx.clearRect(0, 0, width, height);
+    for (const [key, c] of cells) {
+      let alpha;
+      if (now < c.until) {
+        alpha = easeOut(Math.min(1, (now - c.born) / FADE_IN));
+      } else {
+        const t = (now - c.until) / FADE_OUT;
+        if (t >= 1) { cells.delete(key); continue; }
+        alpha = 1 - easeIn(t);
+      }
+      ctx.globalAlpha = alpha * c.dim;
+      ctx.fillStyle = c.colour;
+      ctx.fillRect(c.col * CELL + 1, c.row * CELL + 1, CELL - 1, CELL - 1);
+    }
+    ctx.globalAlpha = 1;
+    if (cells.size > 0) frame = requestAnimationFrame(draw);
+  }
+  function wake() {
+    if (!frame) frame = requestAnimationFrame(draw);
+  }
+
+  function light(col, row, hold) {
+    if (col < 0 || row < 0 || col >= cols || row >= rows) return;
+    if (cells.size >= MAX_LIT) return;
+    const key = col + "," + row;
+    const now = performance.now();
+    const lit = cells.get(key);
+    if (lit && now < lit.until) return;
+    let born = now;
+    if (lit) {
+      const faded = 1 - easeIn(Math.min(1, (now - lit.until) / FADE_OUT));
+      born = now - (1 - Math.sqrt(1 - faded)) * FADE_IN;
+    }
+    cells.set(key, {
+      col: col,
+      row: row,
+      colour: (lit && lit.colour) || ink(row),
+      dim: brightness(col, row),
+      born: born,
+      until: now + hold
+    });
+    wake();
+  }
+
+  let pending = 0;
+  let at = null;
+  function paint() {
+    pending = 0;
+    if (!at) return;
+    const cx = Math.floor(at.x / CELL);
+    const cy = Math.floor(at.y / CELL);
+    const span = Math.ceil(REACH);
+    for (let dy = -span; dy <= span; dy++) {
+      for (let dx = -span; dx <= span; dx++) {
+        const away = Math.hypot(dx, dy);
+        if (away > REACH) continue;
+        if (Math.random() > 1 - away / (REACH + 0.6)) continue;
+        light(cx + dx, cy + dy, 260 + Math.random() * 900);
+      }
+    }
+  }
+  function onMove(event) {
+    const bounds = el.getBoundingClientRect();
+    at = { x: event.clientX - bounds.left, y: event.clientY - bounds.top };
+    if (!pending) pending = requestAnimationFrame(paint);
+  }
+
+  let visible = true;
+  let beat = 0;
+  function drift() {
+    beat = window.setTimeout(drift, 1800 + Math.random() * 2200);
+    if (!visible || document.hidden) return;
+    const cx = Math.floor(Math.random() * cols);
+    const cy = Math.floor(Math.random() * rows);
+    const radius = 1.4 + Math.random() * 1.6;
+    const span = Math.ceil(radius);
+    for (let dy = -span; dy <= span; dy++) {
+      for (let dx = -span; dx <= span; dx++) {
+        const away = Math.hypot(dx, dy);
+        if (away > radius) continue;
+        const nearness = 1 - away / radius;
+        const hold = 500 + nearness * 1300;
+        light(cx + dx, cy + dy, hold);
+      }
+    }
+  }
+  beat = window.setTimeout(drift, 700);
+
+  const sight = new IntersectionObserver(entries => {
+    const entry = entries[0];
+    visible = entry ? entry.isIntersecting : true;
+  });
+  sight.observe(el);
+
+  const resize = new ResizeObserver(measure);
+  resize.observe(el);
+
+  let recheck = 0;
+  const copy = new MutationObserver(() => {
+    if (!recheck) {
+      recheck = requestAnimationFrame(() => {
+        recheck = 0;
+        measureText();
+      });
+    }
+  });
+  copy.observe(document.body, { childList: true, subtree: true, characterData: true });
+
+  measure();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(measureText).catch(() => {});
+  }
+  window.addEventListener("pointermove", onMove, { passive: true });
+})();
 
 /* ============================================================
    CONFIG
@@ -730,7 +752,7 @@ const RELAYS = [
 ];
 
 /* ============================================================
-   DISCLOSURE HELPER — shared by the relay + DNS sections
+   DISCLOSURE HELPER
    ============================================================ */
 function wireDisclosure(gateId, wrapId, labelId, showText, hideText) {
   const gate = document.getElementById(gateId);
@@ -747,7 +769,6 @@ function wireDisclosure(gateId, wrapId, labelId, showText, hideText) {
     if (label) label.textContent = open ? hideText : showText;
     wrap.classList.toggle("open", open);
 
-    // After opening, make sure the revealed content is in view
     if (open) {
       setTimeout(function () {
         try {
@@ -762,38 +783,10 @@ function wireDisclosure(gateId, wrapId, labelId, showText, hideText) {
 }
 
 /* ============================================================
-   PLATFORM TABS — Chromebook / Windows guides
-   ============================================================ */
-(function setupDnsTabs() {
-  const tabs = [
-    { btn: document.getElementById("tabChromebook"), panel: document.getElementById("panelChromebook") },
-    { btn: document.getElementById("tabWindows"),    panel: document.getElementById("panelWindows") }
-  ].filter(t => t.btn && t.panel);
-  if (tabs.length < 2) return;
-
-  tabs.forEach(function (t) {
-    t.btn.addEventListener("click", function () {
-      tabs.forEach(function (other) {
-        const active = other === t;
-        other.btn.setAttribute("aria-pressed", String(active));
-        // Re-trigger the panel entrance animation on switch
-        other.panel.classList.remove("active");
-        if (active) {
-          // force reflow so the panelIn animation replays every switch
-          void other.panel.offsetWidth;
-          other.panel.classList.add("active");
-        }
-      });
-    });
-  });
-})();
-
-/* ============================================================
-   SHELL DOWNLOAD — wiring first, decoration last
+   SHELL DOWNLOAD
    ============================================================ */
 const dlCard = document.getElementById("dlCard");
 const dlCta = document.getElementById("dlCta");
-const dlCtaLabel = document.getElementById("dlCtaLabel");
 const dlDesc = document.getElementById("dlDesc");
 const dlHelp = document.getElementById("dlHelp");
 const DL_DESC_DEFAULT = dlDesc.textContent;
@@ -846,7 +839,7 @@ dlCard.addEventListener("click", async function () {
 
       dlState = "ok";
       dlCard.setAttribute("aria-busy", "false");
-      setCta('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Saved</span>', "ok");
+      setCta('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Saved</span>', "ok");
       dlDesc.textContent = "Saved as " + SHELL_FILENAME + ". Open it to start Mantle.";
       dlHelp.innerHTML = 'Not in your Downloads folder? Your embed may block saves: ' +
         '<a href="' + box.value + '" download="' + SHELL_FILENAME + '">right-click this link and choose "Save link as"</a>.';
@@ -876,50 +869,31 @@ dlCard.addEventListener("click", async function () {
   const section = document.getElementById("relaySection");
   const list = document.getElementById("relayList");
 
-  // No relays configured: the whole section has nothing to offer
   if (!RELAYS.length) { section.style.display = "none"; return; }
 
-  const extSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>';
-  const arrowSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+  const extSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+  const arrowSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
 
   RELAYS.forEach(function (r) {
     const a = document.createElement("a");
-    a.className = "cell relay";
+    a.className = "card relay";
     a.href = r.url;
     a.target = "_blank";
     a.rel = "noopener noreferrer";
     a.innerHTML =
       '<span class="chip chip-relay" aria-hidden="true">' + extSvg + "</span>" +
-      '<span class="meta"><span class="name">' + esc(r.name) + "</span>" +
-      '<span class="desc">' + esc(r.url) + "</span></span>" +
+      '<span class="meta"><span class="relay-name">' + esc(r.name) + "</span>" +
+      '<span class="relay-url">' + esc(r.url) + "</span></span>" +
       '<span class="go" aria-hidden="true">' + arrowSvg + "</span>";
     list.appendChild(a);
   });
 })();
 
 wireDisclosure("relayGate", "relayWrap", "gateLabel", "Show links", "Hide links");
-wireDisclosure("dnsGate", "dnsWrap", "dnsLabel", "Show guide", "Hide guide");
 
 /* Launch capability is live: disarm the watchdog */
 window.__mantleBooted = true;
-console.info("[Mantle] download hub ready · v1.9");
-
-/* ============================================================
-   DECORATIVE LAYER — spotlight + entrance cleanup, last
-   ============================================================ */
-document.querySelectorAll(".cell").forEach(function (card) {
-  card.addEventListener("pointermove", function (e) {
-    const r = card.getBoundingClientRect();
-    card.style.setProperty("--mx", (e.clientX - r.left) + "px");
-    card.style.setProperty("--my", (e.clientY - r.top) + "px");
-  });
-});
-
-document.querySelectorAll(".rise").forEach(function (el) {
-  el.addEventListener("animationend", function (e) {
-    if (e.target === el) el.classList.remove("rise");
-  }, { once: true });
-});
+console.info("[Mantle] download hub ready · v2.0");
 </script>
 </body>
 </html>
